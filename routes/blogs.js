@@ -27,7 +27,7 @@ router.get('/:id', (req, res) => {
     var id = req.params.id;
     console.log(id)
     blogPosts.sort(function(a, b) {
-        var keyA = new Date(a.createdAt),keyB =new Date(b.createdAt);
+        var keyA = a.id,keyB =b.id;
         if (keyA < keyB) return -1;
         if (keyA > keyB) return 1;
         return 0;
