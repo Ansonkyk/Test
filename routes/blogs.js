@@ -6,14 +6,14 @@ router.get('/all', (req, res) => {
     var sorting = req.query.sort
     if (sorting=='asc'){
         blogPosts.sort(function(a, b) {
-            var keyA = a.id,keyB = b.id;
+            var keyA = new Date(a.createdAt),keyB =new Date(b.createdAt);
             if (keyA < keyB) return -1;
             if (keyA > keyB) return 1;
             return 0;
           });
     }else if (sorting=='desc'){
         blogPosts.sort(function(a, b) {
-            var keyA = a.id,keyB = b.id;
+            var keyA = new Date(a.createdAt),keyB =new Date(b.createdAt);
             if (keyA < keyB) return 1;
             if (keyA > keyB) return -1;
             return 0;
@@ -27,7 +27,7 @@ router.get('/:id', (req, res) => {
     var id = req.params.id;
     console.log(id)
     blogPosts.sort(function(a, b) {
-        var keyA = a.id,keyB = b.id;
+        var keyA = new Date(a.createdAt),keyB =new Date(b.createdAt);
         if (keyA < keyB) return -1;
         if (keyA > keyB) return 1;
         return 0;
