@@ -5,6 +5,7 @@ const blogPosts = blogs.blogPosts
 router.get('/all', (req, res) => {
     var sorting = req.query.sort
     if (sorting=='asc'){
+        console.log("asc")
         blogPosts.sort(function(a, b) {
             var keyA = new Date(a.createdAt),keyB =new Date(b.createdAt);
             if (keyA < keyB) return -1;
@@ -12,14 +13,16 @@ router.get('/all', (req, res) => {
             return 0;
           });
     }else if (sorting=='desc'){
+        console.log("desc")
         blogPosts.sort(function(a, b) {
             var keyA = new Date(a.createdAt),keyB =new Date(b.createdAt);
-            if (keyA > keyB) return 1;
-            if (keyA < keyB) return -1;
+            if (keyA > keyB) return -1;
+            if (keyA < keyB) return 1;
             return 0;
           });
 
     }
+    console.log(blogPosts)
     res.json(blogPosts);
 })
 
