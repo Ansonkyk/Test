@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        var blogs = [];
+        $("#getBlogsortdesc").click(function () {
+          $("#blogList").html("");
+          $.get("http://localhost:4000/blogs/all?sort=desc", function (blogs) {
+            console.log(blogs)
+            blogs.forEach((blog) => {
+              $("#blogList").append("<li>" + blog.title + "</li>");
+            });
+          });
+        });
+        $("#getBlogsortasc").click(function () {
+          $("#blogList").html("");
+          $.get("http://localhost:4000/blogs/all?sort=asc", function (blogs) {
+            console.log(blogs)
+            blogs.forEach((blog) => {
+              $("#blogList").append("<li>" + blog.title + "</li>");
+            });
+          });
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <h1>Display Blogs</h1>
+    <button id="getBlogsortdesc">Get Blogs sorted by desc order</button>
+    <button id="getBlogsortasc">Get Blogs sorted by asc order</button>
+    <ul id="blogList"></ul>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+向 codedrop 发送消息
+
+
+
+
+
+
+
+
+Shift + Return 键可添加新行
