@@ -81,27 +81,24 @@ router.get('/displayBlogs', function (req, res, next) {
 });
 
 
-router.delete('/delete-blog/:blogId', (req, res) => {
-  console.log('test');
-  const blogId = req.params.blogId;
-  blogsImport.blogPosts = blogsImport.blogPosts.filter(blog => blog.id != blogId);
-  console.log('remaining blogs');
-  console.log(blogsImport.blogPosts);
-  res.json('Successfully Deleted');
-  console.log(blogsImport.blogPosts);
-});
+//router.delete('/delete-blog/:blogId',function (req, res) {
+//  console.log('test');
+//  const blogId = req.params.blogId;
+//  blogsImport.blogPosts = blogsImport.blogPosts.filter(blog => blog.id != blogId);
+//  res.json('Successfully Deleted');
+//});
+router.get('/deleteBlog/:blogId', (req, res) => {
+  const blogToDelete = req.params.blogId;
+  
+  blogsImport.blogPosts = blogsImport.blogPosts.filter(blog => blog.id != blogToDelete);
+
+ res.send('successfully deleted');
+})
 
 router.get('/post-blog', (req, res, next) => {
   res.render('postblog');
 });
 
-let deleteBlogById = (id) => {
-  console.log('id')
-  console.log(id)
-  blogPosts = blogsImport.blogPosts.filter(blog => blog.id != id);
-  console.log('remaining blogs')
-  console.log(blogPosts)
-  return blogPosts;
-}
+
 module.exports = router;
 
