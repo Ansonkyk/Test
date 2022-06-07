@@ -68,21 +68,31 @@ router.get('/postblog', function (req, res, next) {
 
 router.post("/submit", function (req, res, next) {
   console.log(req.body);
-  var temp = req.body
-  var today = new Date();
-  var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + 'T';
-  var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + today.getMilliseconds() + "Z";
-  var dateTime = date + time;
-  blogsImport.blogPosts.push({
-    createdAt:dateTime,
-    id:(blogsImport.blogPosts.length+1).toString(),
-    title:temp.title,
-    text: temp.text,
-    author: temp.author
+  try {
+    const newPost = req.body;
+    const collection = await blogsDB().collection('blogs50');
+    const latestPost = await collection.find({}).sort({ id: -1 }).limit(1).toArray();
+    const blogID = latestPost[0].id + 1;
 
+    const today = new Date().toISOString();
 
-  });
-  res.send('ok');
+    collection.insertOne({
+        'createdAt': today,
+        'title': newPost.title,
+        'text': newPost.text,
+        'author': newPost.author,
+        'lastModified': today,
+        'category': newPost.category,
+        'id': blogID
+    });
+
+    // blogPosts.push({ createdAt: new Date().toISOString(), title: newPost.title, text: newPost.text, author: newPost.author, id: (blogCount + 1).toString() });
+    // blogCount++;
+
+    res.send('OK');
+} catch (e) {
+    res.status(500).send('Error.');
+};
 
 });
 
@@ -113,7 +123,27 @@ router.get('/post-blog', (req, res, next) => {
   res.render('postblog');
 });
 
+router.put('/modify-blog/:blogId', async function (req, res, next) {
+  try {
+      const blogId = Number(req.params.blogId);
+      const modification = req.body;
+      const today = new Date().toISOString();
+      const collection = await blogsDB().collection('posts');
+      collection.updateOne({ id: blogId }, {
+          $set: {
+              title: modification.title,
+              author: modification.author,
+              text: modification.text,
+              lastModified: today
+          }
+      })
 
+
+      res.send('ok');
+  } catch (e) {
+      res.status(500).send('Error.');
+  }
+});
 module.exports = router;
 
 
