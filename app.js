@@ -10,6 +10,10 @@ var DatetimeRouter = require('./routes/datetime');
 var BlogsRouter = require('./routes/blogs');
 var app = express();
 
+
+var {mongoConnect} = require('./mongo.js');
+mongoConnect();
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
